@@ -8,6 +8,9 @@
 // COthelloDlg 对话框
 class COthelloDlg : public CDialogEx
 {
+private:
+    BOOL bIsFirstStart; //第一次开局为TRUE,第n(>1)为FALSE
+
 // 构造
 public:
 	COthelloDlg(CWnd* pParent = NULL);	// 标准构造函数
@@ -30,4 +33,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnBnClickedBuclose();
+    afx_msg void OnBnClickedBustart();
 };

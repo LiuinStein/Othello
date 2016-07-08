@@ -30,6 +30,8 @@ void COthelloDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(COthelloDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+    ON_BN_CLICKED(IDC_BuClose, &COthelloDlg::OnBnClickedBuclose)
+    ON_BN_CLICKED(IDC_BuStart, &COthelloDlg::OnBnClickedBustart)
 END_MESSAGE_MAP()
 
 
@@ -44,7 +46,10 @@ BOOL COthelloDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	// TODO: 在此添加额外的初始化代码
+	//初始化图片框
+    
+
+
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -85,3 +90,25 @@ HCURSOR COthelloDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+//关闭程序按钮事件响应
+void COthelloDlg::OnBnClickedBuclose()
+{
+    exit(0);
+}
+
+//新开局按钮事件响应
+void COthelloDlg::OnBnClickedBustart()
+{
+    if (bIsFirstStart == FALSE)
+        if (
+            MessageBox(_T("重新开始一局比赛?"),
+                _T("黑白棋"),
+                MB_YESNO | MB_ICONINFORMATION)
+            == IDNO
+            )
+                return; //不重新开始
+    bIsFirstStart = FALSE;  //标记
+
+
+}

@@ -208,9 +208,21 @@
     <None Include="res\Othello.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="BlackDown.png" />
+    <Image Include="Blank.png" />
+    <Image Include="chessblack.bmp" />
+    <Image Include="chessboard.bmp" />
+    <Image Include="chesswhite.bmp" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\Othello.ico" />
+    <Image Include="WriteDown.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Othello.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
