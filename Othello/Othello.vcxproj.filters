@@ -33,6 +33,12 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DataStruct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Data.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Othello.cpp">
@@ -59,25 +65,22 @@
     <Image Include="res\Othello.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="WriteDown.png">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="BlackDown.png">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Blank.png">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="chessblack.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\bitmap1.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="chesswhite.bmp">
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="chessboard.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Blank.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Background.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
