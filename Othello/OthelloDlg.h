@@ -25,6 +25,7 @@ protected:
     BOOL             m_bIsFirstStart;      //第一次开局为TRUE,第n(>1)为FALSE
     BOOL             m_bIsWriteDownChess;  //当前一步落子一方,TRUE为白子
     BOOL             m_bIsGameStart;       //当前游戏是否开始
+    BOOL             m_bPlayerNotChange;   //悔棋的上一步未换手时为TRUE
     CChessBoardState m_psNow;              //当前棋盘上每个点的状态
     stkBrdSte        m_stpsStep;           //棋盘记录,用于悔棋过程
 

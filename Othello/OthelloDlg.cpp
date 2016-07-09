@@ -127,10 +127,13 @@ void COthelloDlg::chess_player_down(
 
     //换手
     //换手就是对对方是否可走作出判断,要遍历棋盘空位
-    if(can_do_next(__l,__c,m_bIsWriteDownChess)==TRUE)
+    m_bPlayerNotChange = FALSE;
+    if(can_do_next(__l,__c,
+        m_bIsWriteDownChess==WriteChess?BlackChess:WriteChess   
+    )==TRUE)
     {
         player_logo_change();   //logo换手
-        m_bIsWriteDownChess = ~m_bIsWriteDownChess; //换手
+        m_bIsWriteDownChess = !m_bIsWriteDownChess; //换手
     }
     else  //不可以换手,当前棋手继续下一步
         if(m_bWriteChessNum + m_bBlackChessNum != 64)
@@ -144,6 +147,8 @@ void COthelloDlg::chess_player_down(
 
             cstrMsg.Format(_T("%s无法继续下一步,由%s继续下一步"),
                 cstrNotNext, cstrNext);
+            MessageBox(cstrMsg, _T("黑白棋"), MB_OK | MB_ICONINFORMATION);
+            m_bPlayerNotChange = TRUE;
         }
         else
         {
@@ -214,7 +219,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __l - 1)
                 return TRUE;
             //找到匹配,从此往下全部压入vector
             for (LineNumber j = i + 1; j < __l; j++)
@@ -235,7 +240,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __l + 1)
                 return TRUE;
             //找到匹配,从此往上压入vector
             for (LineNumber j = i - 1; j > __l; j--)
@@ -256,7 +261,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __c - 1)
                 return TRUE;
             //找到匹配,从此往右压入vector
             for (ColNumber j = i + 1; j < __c; j++)
@@ -277,7 +282,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __c + 1)
                 return TRUE;
             //找到匹配,从此往左压入vector
             for (ColNumber j = i - 1; j > __c; j--)
@@ -299,7 +304,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __c - 1 && j != __l - 1)
                 return TRUE;
             //找到匹配,从此往右下压入vector
             for (Number p = i + 1, r = j + 1;
@@ -322,11 +327,11 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __l + 1 && j != __c - 1)
                 return TRUE;
             //找到匹配,从此往右上压入vector
             for (Number p = i - 1, r = j + 1;
-                p >= __l + 1 && r <= __c - 1; p--, j++)
+                p >= __l + 1 && r <= __c - 1; p--, r++)
             {
                 tmp.first = p;
                 tmp.second = r;
@@ -345,7 +350,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr&&i != __l - 1 && j != __c + 1)
                 return TRUE;
             //找到匹配,从此往左下压入vector
             for (Number p = i + 1, r = j - 1;
@@ -368,7 +373,7 @@ BOOL COthelloDlg::reverse_chess(
             break;
         if (psNow == psMatch)
         {
-            if (__v == nullptr)
+            if (__v == nullptr && i != __l + 1 && j != __c + 1)
                 return TRUE;
             //找到匹配,从此往左上压入vector
             for (Number r = i - 1, p = j - 1;
@@ -381,7 +386,8 @@ BOOL COthelloDlg::reverse_chess(
             break;
         }
     }
-    return __v->size() != 0 ? TRUE : FALSE;
+    return __v == nullptr ? FALSE :
+        __v->size() != 0 ? TRUE : FALSE;
 }
 
 //刷新界面上的棋子个数
@@ -438,7 +444,8 @@ BOOL COthelloDlg::can_do_nexe_col(LineNumber __l, ColNumber __c,
 //构造函数
 COthelloDlg::COthelloDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_OTHELLO_DIALOG, pParent),
-    m_bIsFirstStart(TRUE), m_bIsGameStart(FALSE)
+    m_bIsFirstStart(TRUE), m_bIsGameStart(FALSE),
+    m_bPlayerNotChange(FALSE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     init_game_start();  //初始化游戏数据
@@ -622,8 +629,12 @@ void COthelloDlg::OnBnClickedBuundo()
     m_psNow.get_chess_number(&m_bWriteChessNum,
         &m_bBlackChessNum);
     refresh_chess_num();
-    player_logo_change();   //logo换手
-    m_bIsWriteDownChess = ~m_bIsWriteDownChess; //换手
+    if (m_bPlayerNotChange != TRUE)
+    {
+        //上一步换手了就再换回去
+        player_logo_change();   //logo换手
+        m_bIsWriteDownChess = !m_bIsWriteDownChess; //换手
+    }   
 }
 
 //计时器回调函数
