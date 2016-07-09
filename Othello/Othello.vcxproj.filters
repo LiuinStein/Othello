@@ -77,9 +77,6 @@
     <Image Include="Blank.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\bitmap1.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="Background.bmp">
       <Filter>资源文件</Filter>
     </Image>

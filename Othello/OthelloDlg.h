@@ -41,6 +41,9 @@ private:
     void chess_player_down(LineNumber __l, 
         ColNumber __c);
 
+    //logo换手
+    void player_logo_change();
+
     //有效性判断及翻子,返回TRUE即这一步有效,否则无效
     //需要翻转过来的棋子存放在vector里面
     BOOL down_check(LineNumber __l, ColNumber __c,
@@ -61,8 +64,6 @@ private:
     //定行检列,服务于can_do_next
     BOOL can_do_nexe_col(LineNumber __l, ColNumber __c, BOOL __ISW)const;
 
-    /*分胜负啦
-    BOOL check_win();*/
 
 /// 构造
 public:

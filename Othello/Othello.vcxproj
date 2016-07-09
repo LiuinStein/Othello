@@ -215,7 +215,6 @@
     <Image Include="chessblack.bmp" />
     <Image Include="chessboard.bmp" />
     <Image Include="chesswhite.bmp" />
-    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\Othello.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

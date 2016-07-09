@@ -129,23 +129,8 @@ void COthelloDlg::chess_player_down(
     //换手就是对对方是否可走作出判断,要遍历棋盘空位
     if(can_do_next(__l,__c,m_bIsWriteDownChess)==TRUE)
     {
-        //logo换手
-        if (m_bIsWriteDownChess == WriteChess)
-        {
-            m_cbmpDlgBack.Draw(*this->GetDC(),
-                WritePlayerLogoX, WritePlayerLogoY);
-            m_cbmpBlackChess.Draw(*this->GetDC(),
-                BlackPlayerLogoX, BlackPlayerLogoY);
-        }
-        else
-        {
-            m_cbmpDlgBack.Draw(*this->GetDC(),
-                BlackPlayerLogoX, BlackPlayerLogoY);
-            m_cbmpWriteChess.Draw(*this->GetDC(),
-                WritePlayerLogoX, WritePlayerLogoY);
-        }
-        //换手
-        m_bIsWriteDownChess = ~m_bIsWriteDownChess;
+        player_logo_change();   //logo换手
+        m_bIsWriteDownChess = ~m_bIsWriteDownChess; //换手
     }
     else  //不可以换手,当前棋手继续下一步
         if(m_bWriteChessNum + m_bBlackChessNum != 64)
@@ -178,6 +163,25 @@ void COthelloDlg::chess_player_down(
                 MB_ICONINFORMATION | MB_OK);   
             KillTimer(1);
         }   
+}
+
+//logo换手
+void COthelloDlg::player_logo_change()
+{
+    if (m_bIsWriteDownChess == WriteChess)
+    {
+        m_cbmpDlgBack.Draw(*this->GetDC(),
+            WritePlayerLogoX, WritePlayerLogoY);
+        m_cbmpBlackChess.Draw(*this->GetDC(),
+            BlackPlayerLogoX, BlackPlayerLogoY);
+    }
+    else
+    {
+        m_cbmpDlgBack.Draw(*this->GetDC(),
+            BlackPlayerLogoX, BlackPlayerLogoY);
+        m_cbmpWriteChess.Draw(*this->GetDC(),
+            WritePlayerLogoX, WritePlayerLogoY);
+    }  
 }
 
 //落子合法性检查
@@ -580,6 +584,12 @@ void COthelloDlg::OnLButtonDown(UINT nFlags,
 //悔棋
 void COthelloDlg::OnBnClickedBuundo()
 {   
+    if (m_bIsGameStart == FALSE)
+    {
+        MessageBox(_T("游戏未开始,不能悔棋"), _T("黑白棋"),
+            MB_ICONERROR | MB_OK);
+        return; //退化情况
+    }      
     if (m_stpsStep.size() == 0)
     {
         MessageBox(_T("无棋可悔"),_T("黑白棋"),
@@ -612,6 +622,7 @@ void COthelloDlg::OnBnClickedBuundo()
     m_psNow.get_chess_number(&m_bWriteChessNum,
         &m_bBlackChessNum);
     refresh_chess_num();
+    player_logo_change();   //logo换手
     m_bIsWriteDownChess = ~m_bIsWriteDownChess; //换手
 }
 
@@ -637,6 +648,12 @@ void COthelloDlg::OnTimer(UINT_PTR nIDEvent)
 //单击认输按钮
 void COthelloDlg::OnBnClickedBulose()
 {
+    if (m_bIsGameStart == FALSE)
+    {
+        MessageBox(_T("游戏未开始,不能认输"), _T("黑白棋"),
+            MB_ICONERROR | MB_OK);
+        return; //退化情况
+    }
     CString cstrLoser;
     cstrLoser = m_bIsWriteDownChess == WriteChess ?
         _T("白方") : _T("黑方");
