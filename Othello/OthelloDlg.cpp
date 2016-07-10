@@ -1,5 +1,5 @@
-
-// OthelloDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿
+// OthelloDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -13,10 +13,10 @@
 #endif
 
 
-// COthelloDlg ¶Ô»°¿ò
+// COthelloDlg å¯¹è¯æ¡†
 
 
-//ÓÎÏ·(ÖØĞÂ)¿ªÊ¼,³õÊ¼»¯Êı¾İ
+//æ¸¸æˆ(é‡æ–°)å¼€å§‹,åˆå§‹åŒ–æ•°æ®
 void COthelloDlg::init_game_start()
 {
     m_bWriteChessNum = m_bBlackChessNum = 2;
@@ -24,10 +24,10 @@ void COthelloDlg::init_game_start()
     m_bIsWriteDownChess = TRUE;
     m_psNow.init();
     while (m_stpsStep.size() != 0)
-        m_stpsStep.pop();   //ÇåÕ»
+        m_stpsStep.pop();   //æ¸…æ ˆ
     if (m_bIsFirstStart == TRUE)
     {
-        //µÚÒ»´Î½øÈëÓÎÏ·Ê±ÔØÈëBMPÎ»Í¼×ÊÔ´
+        //ç¬¬ä¸€æ¬¡è¿›å…¥æ¸¸æˆæ—¶è½½å…¥BMPä½å›¾èµ„æº
         m_cbmpBlackChess.LoadFromResource(
             ::AfxGetInstanceHandle(), 
             IDB_ChessBlack);
@@ -46,23 +46,23 @@ void COthelloDlg::init_game_start()
     }
 }
 
-//ÔÚÆåÅÌÖ¸¶¨×ø±ê»æÖÆÆå×Ó
+//åœ¨æ£‹ç›˜æŒ‡å®šåæ ‡ç»˜åˆ¶æ£‹å­
 void COthelloDlg::draw_chess_by_coord(BOOL __ISW,
     LineNumber __l, ColNumber __c)
 {
     if (__l < 1 || __l > 8 || __c < 1 || __c > 8)
     {
-        AfxMessageBox(_T("draw_Chess_by_coord³öÏÖÔ½½çÒì³£"));
+        AfxMessageBox(_T("draw_Chess_by_coordå‡ºç°è¶Šç•Œå¼‚å¸¸"));
         exit(1);
     }
-    //»ñÈ¡µ±Ç°»æÖÆÆå×ÓÎ»Í¼
+    //è·å–å½“å‰ç»˜åˆ¶æ£‹å­ä½å›¾
     CImage * drawChess{ nullptr };
     if (__ISW != -1)
         drawChess = &(__ISW == WriteChess ?
             m_cbmpWriteChess : m_cbmpBlackChess);
     else
         drawChess = &m_cbmpBlank;
-    //¼ÆËãÆå×Ó×ø±ê
+    //è®¡ç®—æ£‹å­åæ ‡
     Coord drawX{//X
         ChessBoardLeftUppX + ChessBoard_1A_LeftUppX
         + (__c - 1) * ChessSize + 1
@@ -71,30 +71,30 @@ void COthelloDlg::draw_chess_by_coord(BOOL __ISW,
         ChessBoardLeftUppY + ChessBoard_1A_LeftUppY
         + (__l - 1) * ChessSize + 1
     };
-    //»æÍ¼
+    //ç»˜å›¾
     if (drawChess->Draw(*(this->GetDC()), drawX,
         drawY) == FALSE)
     {
-        AfxMessageBox(_T("draw_Chess_by_coord³öÏÖÒì³£,»æÍ¼Ê§°Ü"));
+        AfxMessageBox(_T("draw_Chess_by_coordå‡ºç°å¼‚å¸¸,ç»˜å›¾å¤±è´¥"));
         exit(1);
     }
 
 }
 
-//ÆåÊÖÂä×Ó
+//æ£‹æ‰‹è½å­
 void COthelloDlg::chess_player_down(
     LineNumber __l, ColNumber __c)
 {
-    //´æ·ÅĞèÒª·­×ªµÄÆå×Ó×ø±ê,ĞĞÁĞ×ø±ê·ÅÈëĞòÅ¼  
+    //å­˜æ”¾éœ€è¦ç¿»è½¬çš„æ£‹å­åæ ‡,è¡Œåˆ—åæ ‡æ”¾å…¥åºå¶  
     vecPairLiCol vecReverseChess;
-    //ºÏ·¨ĞÔÅĞ¶Ï
+    //åˆæ³•æ€§åˆ¤æ–­
     if (down_check(__l, __c, &vecReverseChess) 
         == FALSE)
-        return;     //´Ë²½²»¿ÉĞĞ
-    //¼ÇÂ¼»ÚÆåÈÕÖ¾
+        return;     //æ­¤æ­¥ä¸å¯è¡Œ
+    //è®°å½•æ‚”æ£‹æ—¥å¿—
     m_psNow.set_chess_number(m_bWriteChessNum, m_bBlackChessNum);
     CChessBoardState m_psNowTmp = m_psNow;
-    //²½Êı¼ÆËã
+    //æ­¥æ•°è®¡ç®—
     size_t deltaNum = vecReverseChess.size();
     CString cstrStep;
     if (m_bIsWriteDownChess == WriteChess)
@@ -108,71 +108,74 @@ void COthelloDlg::chess_player_down(
         m_bWriteChessNum -= deltaNum;
     }
     refresh_chess_num();
-    //»­×Ó
+    //ç”»å­
     for (vecPairLiCol::iterator iter = vecReverseChess.begin();
         iter != vecReverseChess.end(); ++iter)
     {
         draw_chess_by_coord(m_bIsWriteDownChess,
             iter->first, iter->second);
-        // ¸Ä±äµ±Ç°×´Ì¬
+        // æ”¹å˜å½“å‰çŠ¶æ€
         m_psNow.set_chess_state(iter->first, iter->second,
             m_bIsWriteDownChess == WriteChess ? e_psWriteDown :
             e_psBlackDown);
     }      
     draw_chess_by_coord(m_bIsWriteDownChess, __l, __c);  
-    //ĞŞ¸ÄÆå×Óµ±Ç°×´Ì¬
+    //ä¿®æ”¹æ£‹å­å½“å‰çŠ¶æ€
     m_psNow.set_chess_state(__l, __c,
         m_bIsWriteDownChess == WriteChess ? e_psWriteDown :
         e_psBlackDown); 
 
-    //»»ÊÖ
-    //»»ÊÖ¾ÍÊÇ¶Ô¶Ô·½ÊÇ·ñ¿É×ß×÷³öÅĞ¶Ï,Òª±éÀúÆåÅÌ¿ÕÎ»
+    //æ¢æ‰‹
+    //æ¢æ‰‹å°±æ˜¯å¯¹å¯¹æ–¹æ˜¯å¦å¯èµ°ä½œå‡ºåˆ¤æ–­,è¦éå†æ£‹ç›˜ç©ºä½
     m_bPlayerNotChange = FALSE;
-    if(can_do_next(__l,__c,
-        m_bIsWriteDownChess==WriteChess?BlackChess:WriteChess   
-    )==TRUE)
+    if (can_do_next(__l, __c,
+        m_bIsWriteDownChess == WriteChess ? BlackChess : WriteChess
+    ) == TRUE)
     {
-        player_logo_change();   //logo»»ÊÖ
-        m_bIsWriteDownChess = !m_bIsWriteDownChess; //»»ÊÖ
+        player_logo_change();   //logoæ¢æ‰‹
+        m_bIsWriteDownChess = !m_bIsWriteDownChess; //æ¢æ‰‹
     }
-    else  //²»¿ÉÒÔ»»ÊÖ,µ±Ç°ÆåÊÖ¼ÌĞøÏÂÒ»²½
-        if(m_bWriteChessNum + m_bBlackChessNum != 64)
+    else  //ä¸å¯ä»¥æ¢æ‰‹,å½“å‰æ£‹æ‰‹ç»§ç»­ä¸‹ä¸€æ­¥
+        if(m_bWriteChessNum + m_bBlackChessNum != 64 &&
+            can_do_next(__l, __c,
+                m_bIsWriteDownChess == WriteChess ? WriteChess : BlackChess
+            ) == TRUE)
         {
-            //ÆåÅÌÃ»Âú
+            //æ£‹ç›˜æ²¡æ»¡
             CString cstrMsg;
             CString cstrNext = m_bIsWriteDownChess == WriteChess ?
-                _T("°×·½") : _T("ºÚ·½");
+                _T("ç™½æ–¹") : _T("é»‘æ–¹");
             CString cstrNotNext = m_bIsWriteDownChess == WriteChess ?
-                _T("ºÚ·½") : _T("°×·½");
+                _T("é»‘æ–¹") : _T("ç™½æ–¹");
 
-            cstrMsg.Format(_T("%sÎŞ·¨¼ÌĞøÏÂÒ»²½,ÓÉ%s¼ÌĞøÏÂÒ»²½"),
+            cstrMsg.Format(_T("%sæ— æ³•ç»§ç»­ä¸‹ä¸€æ­¥,ç”±%sç»§ç»­ä¸‹ä¸€æ­¥"),
                 cstrNotNext, cstrNext);
-            MessageBox(cstrMsg, _T("ºÚ°×Æå"), MB_OK | MB_ICONINFORMATION);
+            MessageBox(cstrMsg, _T("é»‘ç™½æ£‹"), MB_OK | MB_ICONINFORMATION);
             m_bPlayerNotChange = TRUE;
         }
         else
         {
-            //Èç¹ûÊÇÒòÎªÆåÅÌÂúÁËµ¼ÖÂcan_do_next·µ»ØFALSE
-            //Õâ¾ÍÊÇ¸Ã·ÖÊ¤¸ºµÄÊ±ºòÁË
+            //å¦‚æœæ˜¯å› ä¸ºæ£‹ç›˜æ»¡äº†å¯¼è‡´can_do_nextè¿”å›FALSE
+            //è¿™å°±æ˜¯è¯¥åˆ†èƒœè´Ÿçš„æ—¶å€™äº†
+            KillTimer(1);
             CString cstrWinMsg;
             if (m_bBlackChessNum != m_bWriteChessNum)
                 cstrWinMsg = m_bBlackChessNum > m_bWriteChessNum ?
-                _T("ºÚ·½Ê¤") : _T("°×·½Ê¤");
+                _T("é»‘æ–¹èƒœ") : _T("ç™½æ–¹èƒœ");
             else if (m_tWriteUsingTime != m_tBlackUsingTime)
                 cstrWinMsg = m_tWriteUsingTime > m_tBlackUsingTime ?
-                _T("ºÚ·½Ê¤") : _T("°×·½Ê¤");
+                _T("é»‘æ–¹èƒœ") : _T("ç™½æ–¹èƒœ");
             else
-                cstrWinMsg = _T("Æ½¾Ö");
-            m_bIsGameStart = FALSE; //±ê¼ÇÓÎÏ·½áÊø
-            MessageBox(cstrWinMsg, _T("ºÚ°×Æå"),
+                cstrWinMsg = _T("å¹³å±€");
+            m_bIsGameStart = FALSE; //æ ‡è®°æ¸¸æˆç»“æŸ
+            MessageBox(cstrWinMsg, _T("é»‘ç™½æ£‹"),
                 MB_ICONINFORMATION | MB_OK);   
-            KillTimer(1);
         }   
     m_psNowTmp.set_player_not_change(m_bPlayerNotChange);
     m_stpsStep.push(m_psNowTmp);
 }
 
-//logo»»ÊÖ
+//logoæ¢æ‰‹
 void COthelloDlg::player_logo_change()
 {
     if (m_bIsWriteDownChess == WriteChess)
@@ -191,29 +194,29 @@ void COthelloDlg::player_logo_change()
     }  
 }
 
-//Âä×ÓºÏ·¨ĞÔ¼ì²é
+//è½å­åˆæ³•æ€§æ£€æŸ¥
 BOOL COthelloDlg::down_check(LineNumber __l,
     ColNumber __c, vecPairLiCol * __v) const
 {
     if (m_psNow.get_state_by_coord(__l, __c) == e_psBlank &&
         reverse_chess(__l, __c, m_bIsWriteDownChess, __v) 
-        == TRUE  //ºá×İĞ±4Ïò¼ì²é,¿´¿´ÊÇ·ñ¿ÉÒÔ·­×ª¶Ô·½
+        == TRUE  //æ¨ªçºµæ–œ4å‘æ£€æŸ¥,çœ‹çœ‹æ˜¯å¦å¯ä»¥ç¿»è½¬å¯¹æ–¹
         )
         return TRUE;
     return FALSE;
 }
 
-//ºá×İĞ±4Ïò¼ì²é,¿É×ß·µ»ØTRUE
+//æ¨ªçºµæ–œ4å‘æ£€æŸ¥,å¯èµ°è¿”å›TRUE
 BOOL COthelloDlg::reverse_chess(
-    LineNumber __l, ColNumber __c,  //¼ì²éÖĞĞÄµã×ø±ê
-    BOOL __ISW,     //¼ì²éÖĞĞÄµãÆå×ÓÑÕÉ«
+    LineNumber __l, ColNumber __c,  //æ£€æŸ¥ä¸­å¿ƒç‚¹åæ ‡
+    BOOL __ISW,     //æ£€æŸ¥ä¸­å¿ƒç‚¹æ£‹å­é¢œè‰²
     vecPairLiCol* __v) const
 {
     pairLiCol tmp;
-    //²éÕÒÆ¥Åä¶ÔÏó
+    //æŸ¥æ‰¾åŒ¹é…å¯¹è±¡
     PointState psMatch = __ISW == WriteChess ?
         e_psWriteDown : e_psBlackDown;
-    //´Ó¼ì²éµãÍùÉÏ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€ä¸Šèµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (LineNumber i = __l - 1; i >= 1; i--)
     {
         PointState psNow = m_psNow.get_state_by_coord(i, __c);
@@ -223,7 +226,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __l - 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍùÏÂÈ«²¿Ñ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€ä¸‹å…¨éƒ¨å‹å…¥vector
             for (LineNumber j = i + 1; j < __l; j++)
             {
                 tmp.first = j;
@@ -234,7 +237,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }
         
-    //´Ó¼ì²éµãÍùÏÂ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€ä¸‹èµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (LineNumber i = __l + 1; i <= 8; i++)
     {
         PointState psNow = m_psNow.get_state_by_coord(i, __c);
@@ -244,7 +247,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __l + 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍùÉÏÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€ä¸Šå‹å…¥vector
             for (LineNumber j = i - 1; j > __l; j--)
             {
                 tmp.first = j;
@@ -255,7 +258,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }
         
-    //´Ó¼ì²éµãÍù×ó×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€å·¦èµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (ColNumber i = __c - 1; i >= 1; i--)
     {
         PointState psNow = m_psNow.get_state_by_coord(__l, i);
@@ -265,7 +268,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __c - 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍùÓÒÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€å³å‹å…¥vector
             for (ColNumber j = i + 1; j < __c; j++)
             {
                 tmp.first = __l;
@@ -276,7 +279,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }
         
-    //´Ó¼ì²éµãÍùÓÒ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€å³èµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (ColNumber i = __c + 1; i <= 8; i++)
     {
         PointState psNow = m_psNow.get_state_by_coord(__l, i);
@@ -286,7 +289,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __c + 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍù×óÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€å·¦å‹å…¥vector
             for (ColNumber j = i - 1; j > __c; j--)
             {
                 tmp.first = __l;
@@ -297,7 +300,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }
         
-    //´Ó¼ì²éµãÍù×óÉÏ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€å·¦ä¸Šèµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (Number i = __c - 1, j = __l - 1;
         i >= 1 && j >= 1; i--, j--)
     {
@@ -308,7 +311,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __c - 1 && j != __l - 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍùÓÒÏÂÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€å³ä¸‹å‹å…¥vector
             for (Number p = i + 1, r = j + 1;
                 p < __c && r < __l; p++, r++)
             {
@@ -320,7 +323,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }
         
-    //´Ó¼ì²éµãÍù×óÏÂ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€å·¦ä¸‹èµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (Number i = __l + 1, j = __c - 1;
         i <= 8 && j <= 8; i++, j--)
     {
@@ -331,7 +334,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __l + 1 && j != __c - 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍùÓÒÉÏÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€å³ä¸Šå‹å…¥vector
             for (Number p = i - 1, r = j + 1;
                 p >= __l + 1 && r <= __c - 1; p--, r++)
             {
@@ -343,7 +346,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }  
 
-    //´Ó¼ì²éµãÍùÓÒÉÏ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€å³ä¸Šèµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (Number i = __l - 1, j = __c + 1;
         i >= 1 && j <= 8; i--, j++)
     {
@@ -354,7 +357,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr&&i != __l - 1 && j != __c + 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍù×óÏÂÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€å·¦ä¸‹å‹å…¥vector
             for (Number p = i + 1, r = j - 1;
                 p < __l && r > __c; p++, r--)
             {
@@ -366,7 +369,7 @@ BOOL COthelloDlg::reverse_chess(
         }
     }
 
-    //´Ó¼ì²éµãÍùÓÒÏÂ×ß,ÕÒµÚÒ»¸ö
+    //ä»æ£€æŸ¥ç‚¹å¾€å³ä¸‹èµ°,æ‰¾ç¬¬ä¸€ä¸ª
     for (Number i = __l + 1, j = __c + 1;
         i <= 8 && j <= 8; i++, j++)
     {
@@ -377,7 +380,7 @@ BOOL COthelloDlg::reverse_chess(
         {
             if (__v == nullptr && i != __l + 1 && j != __c + 1)
                 return TRUE;
-            //ÕÒµ½Æ¥Åä,´Ó´ËÍù×óÉÏÑ¹Èëvector
+            //æ‰¾åˆ°åŒ¹é…,ä»æ­¤å¾€å·¦ä¸Šå‹å…¥vector
             for (Number r = i - 1, p = j - 1;
                 r > __l&&p > __c; r--, p--)
             {
@@ -392,50 +395,50 @@ BOOL COthelloDlg::reverse_chess(
         __v->size() != 0 ? TRUE : FALSE;
 }
 
-//Ë¢ĞÂ½çÃæÉÏµÄÆå×Ó¸öÊı
+//åˆ·æ–°ç•Œé¢ä¸Šçš„æ£‹å­ä¸ªæ•°
 void COthelloDlg::refresh_chess_num() const
 {
     CString cstrStep;
-    cstrStep.Format(_T("°×ÆåÄ¿Ç°´æ»î%d×Ó"), m_bWriteChessNum);
+    cstrStep.Format(_T("ç™½æ£‹ç›®å‰å­˜æ´»%då­"), m_bWriteChessNum);
     GetDlgItem(IDC_StaWrNum)->SetWindowTextW(cstrStep);
-    cstrStep.Format(_T("ºÚÆåÄ¿Ç°´æ»î%d×Ó"), m_bBlackChessNum);
+    cstrStep.Format(_T("é»‘æ£‹ç›®å‰å­˜æ´»%då­"), m_bBlackChessNum);
     GetDlgItem(IDC_StBlNum)->SetWindowTextW(cstrStep);
 }
 
-//¶ÔÒ»·½ÏÂÒ»²½µÄ¿ÉĞĞĞÔ×÷³öÅĞ¶Ï
-//(__l,__c)ÎªÀ©É¢µã,ÒÔ´ËµãÎªÖĞĞÄ(¼ì²âÊ±²»°üº¬´Ëµã)
-//ÏÈ¶¨×¡ĞĞ²»±ä,ÒÔÁĞÎª»ù±¾µ¥Î»,Ïò×óÓÒÀ©É¢,
-//Ö÷Òª·¢ÏÖÒ»¸ö¿ÉĞĞµã¼´return
-//__ISW×÷Îª¼ì²âÉ«,¼ì²â¸ÃÉ«Æå×ÓµÄ¿ÉĞĞĞÔ
-//ÓĞÁË´¦ÀíÁĞµÄcan_do_nexe_colº¯Êı,ÄÇÎÒÃÇÖ»ÔÚÕâÀï´¦ÀíĞĞ
+//å¯¹ä¸€æ–¹ä¸‹ä¸€æ­¥çš„å¯è¡Œæ€§ä½œå‡ºåˆ¤æ–­
+//(__l,__c)ä¸ºæ‰©æ•£ç‚¹,ä»¥æ­¤ç‚¹ä¸ºä¸­å¿ƒ(æ£€æµ‹æ—¶ä¸åŒ…å«æ­¤ç‚¹)
+//å…ˆå®šä½è¡Œä¸å˜,ä»¥åˆ—ä¸ºåŸºæœ¬å•ä½,å‘å·¦å³æ‰©æ•£,
+//ä¸»è¦å‘ç°ä¸€ä¸ªå¯è¡Œç‚¹å³return
+//__ISWä½œä¸ºæ£€æµ‹è‰²,æ£€æµ‹è¯¥è‰²æ£‹å­çš„å¯è¡Œæ€§
+//æœ‰äº†å¤„ç†åˆ—çš„can_do_nexe_colå‡½æ•°,é‚£æˆ‘ä»¬åªåœ¨è¿™é‡Œå¤„ç†è¡Œ
 BOOL COthelloDlg::can_do_next(LineNumber __l, ColNumber __c,
     BOOL __ISW)const
 {
-    //ÍË»¯Çé¿ö:ÆåÅÌÂúÁË,Ö±½Ó·µ»ØFALSE
+    //é€€åŒ–æƒ…å†µ:æ£‹ç›˜æ»¡äº†,ç›´æ¥è¿”å›FALSE
     if (m_bWriteChessNum + m_bBlackChessNum == 64)
         return FALSE;
-    //ÏòÉÏ
+    //å‘ä¸Š
     for (LineNumber i = __l; i >= 1; i--)
         if (can_do_nexe_col(i, __c, __ISW) == TRUE)
             return TRUE;
-    //ÏòÏÂ
+    //å‘ä¸‹
     for (LineNumber i = __l + 1; i <= 8; i++)
         if (can_do_nexe_col(i, __c, __ISW) == TRUE)
             return TRUE;
     return FALSE;
 }
 
-//¶¨ĞĞ¼ìÁĞ,ĞĞÎª¶¨×¡µÄÄÇÒ»ĞĞ,ÁĞÎªÖĞĞÄµãµÄÁĞºÅ
-//__ISW×ö¼ì²âÉ«
+//å®šè¡Œæ£€åˆ—,è¡Œä¸ºå®šä½çš„é‚£ä¸€è¡Œ,åˆ—ä¸ºä¸­å¿ƒç‚¹çš„åˆ—å·
+//__ISWåšæ£€æµ‹è‰²
 BOOL COthelloDlg::can_do_nexe_col(LineNumber __l, ColNumber __c,
     BOOL __ISW) const
 {
-    //Ïò×ó¼ìÁĞ,ÁĞ-
+    //å‘å·¦æ£€åˆ—,åˆ—-
     for (ColNumber i = __c; i >= 1; i--)
         if (m_psNow.get_state_by_coord(__l, i) == e_psBlank &&
             reverse_chess(__l, i, __ISW) == TRUE)
             return TRUE;
-    //ÏòÓÒ¼ì²â,ÁĞ+
+    //å‘å³æ£€æµ‹,åˆ—+
     for (ColNumber i = __c; i <= 8; i++)
         if (m_psNow.get_state_by_coord(__l, i) == e_psBlank &&
             reverse_chess(__l, i, __ISW) == TRUE)
@@ -443,14 +446,14 @@ BOOL COthelloDlg::can_do_nexe_col(LineNumber __l, ColNumber __c,
     return FALSE;
 }
 
-//¹¹Ôìº¯Êı
+//æ„é€ å‡½æ•°
 COthelloDlg::COthelloDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_OTHELLO_DIALOG, pParent),
     m_bIsFirstStart(TRUE), m_bIsGameStart(FALSE),
     m_bPlayerNotChange(FALSE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-    init_game_start();  //³õÊ¼»¯ÓÎÏ·Êı¾İ
+    init_game_start();  //åˆå§‹åŒ–æ¸¸æˆæ•°æ®
 }
 
 void COthelloDlg::DoDataExchange(CDataExchange* pDX)
@@ -459,45 +462,45 @@ void COthelloDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-//ÏûÏ¢Ó³Éä
+//æ¶ˆæ¯æ˜ å°„
 BEGIN_MESSAGE_MAP(COthelloDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
     ON_BN_CLICKED(IDC_BuClose, &COthelloDlg::OnBnClickedBuclose)
     ON_BN_CLICKED(IDC_BuStart, &COthelloDlg::OnBnClickedBustart)
     ON_BN_CLICKED(IDC_BuUndo, &COthelloDlg::OnBnClickedBuundo)
-    ON_WM_LBUTTONDOWN()     //ÏûÏ¢Ó³ÉäÖĞ½ÓÊÜÊó±êÏûÏ¢
+    ON_WM_LBUTTONDOWN()     //æ¶ˆæ¯æ˜ å°„ä¸­æ¥å—é¼ æ ‡æ¶ˆæ¯
     ON_WM_TIMER()
     ON_BN_CLICKED(IDC_BuLose, &COthelloDlg::OnBnClickedBulose)
 END_MESSAGE_MAP()
 
 
-// COthelloDlg ÏûÏ¢´¦Àí³ÌĞò
+// COthelloDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL COthelloDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£  µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚  å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
+	return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îĞ¡»¯°´Å¥£¬ÔòĞèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£  ¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ĞÍµÄ MFC Ó¦ÓÃ³ÌĞò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚  å¯¹äºä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡å‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æ¶è‡ªåŠ¨å®Œæˆã€‚
 
 void COthelloDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+		CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -505,7 +508,7 @@ void COthelloDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -514,111 +517,111 @@ void COthelloDlg::OnPaint()
 	}
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îĞ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊıÈ¡µÃ¹â±êÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡æ˜¾ç¤ºã€‚
 HCURSOR COthelloDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
 
-//¹Ø±Õ³ÌĞò°´Å¥ÊÂ¼şÏìÓ¦
+//å…³é—­ç¨‹åºæŒ‰é’®äº‹ä»¶å“åº”
 void COthelloDlg::OnBnClickedBuclose()
 {
     exit(0);
 }
 
-//ĞÂ¿ª¾Ö°´Å¥ÊÂ¼şÏìÓ¦
+//æ–°å¼€å±€æŒ‰é’®äº‹ä»¶å“åº”
 void COthelloDlg::OnBnClickedBustart()
 {
     if (m_bIsFirstStart == FALSE)
         if (
-            MessageBox(_T("ÖØĞÂ¿ªÊ¼Ò»¾Ö±ÈÈü?"),
-                _T("ºÚ°×Æå"),
+            MessageBox(_T("é‡æ–°å¼€å§‹ä¸€å±€æ¯”èµ›?"),
+                _T("é»‘ç™½æ£‹"),
                 MB_YESNO | MB_ICONINFORMATION)
             == IDNO
             )
-                return; //²»ÖØĞÂ¿ªÊ¼
-    m_bIsFirstStart = FALSE;  //±ê¼ÇÒÑ¾­²»ÊÇµÚÒ»¾ÖÁË
-    m_bIsGameStart = TRUE;  //±ê¼ÇÓÎÏ·¿ªÊ¼,¶ÔÊó±êÏûÏ¢×÷³ö·´Ó¦
-    init_game_start();      //³õÊ¼»¯ÓÎÏ·Êı¾İ
+                return; //ä¸é‡æ–°å¼€å§‹
+    m_bIsFirstStart = FALSE;  //æ ‡è®°å·²ç»ä¸æ˜¯ç¬¬ä¸€å±€äº†
+    m_bIsGameStart = TRUE;  //æ ‡è®°æ¸¸æˆå¼€å§‹,å¯¹é¼ æ ‡æ¶ˆæ¯ä½œå‡ºååº”
+    init_game_start();      //åˆå§‹åŒ–æ¸¸æˆæ•°æ®
 
-    //³õÊ¼»¯ÆåÅÌÏÔÊ¾Êı¾İ
-    GetDlgItem(IDC_StaWrTime)->SetWindowTextW(_T("°×ÆåÓÃÊ±:       0s"));
-    GetDlgItem(IDC_StaBlTime)->SetWindowTextW(_T("ºÚÆåÓÃÊ±:       0s"));
-    GetDlgItem(IDC_StaWrNum)->SetWindowTextW(_T("°×ÆåÄ¿Ç°´æ»î2×Ó"));
-    GetDlgItem(IDC_StBlNum)->SetWindowTextW(_T("ºÚÆåÄ¿Ç°´æ»î2×Ó"));
-    //»æÖÆ°×·½ĞĞÆålogo
+    //åˆå§‹åŒ–æ£‹ç›˜æ˜¾ç¤ºæ•°æ®
+    GetDlgItem(IDC_StaWrTime)->SetWindowTextW(_T("ç™½æ£‹ç”¨æ—¶:       0s"));
+    GetDlgItem(IDC_StaBlTime)->SetWindowTextW(_T("é»‘æ£‹ç”¨æ—¶:       0s"));
+    GetDlgItem(IDC_StaWrNum)->SetWindowTextW(_T("ç™½æ£‹ç›®å‰å­˜æ´»2å­"));
+    GetDlgItem(IDC_StBlNum)->SetWindowTextW(_T("é»‘æ£‹ç›®å‰å­˜æ´»2å­"));
+    //ç»˜åˆ¶ç™½æ–¹è¡Œæ£‹logo
     m_cbmpWriteChess.Draw(*this->GetDC(),
         WritePlayerLogoX, WritePlayerLogoY);
     m_cbmpDlgBack.Draw(*this->GetDC(),
         BlackPlayerLogoX, BlackPlayerLogoY);
-    //»æÖÆÆåÅÌ
+    //ç»˜åˆ¶æ£‹ç›˜
     m_cbmpChessBoard.Draw(*this->GetDC(),
         ChessBoardLeftUppX, ChessBoardLeftUppY);
-    //»æÖÆ³õÊ¼µÄËÄ¸öÆå×Ó
+    //ç»˜åˆ¶åˆå§‹çš„å››ä¸ªæ£‹å­
     draw_chess_by_coord(WriteChess, 4, 4);
     draw_chess_by_coord(WriteChess, 5, 5);
     draw_chess_by_coord(BlackChess, 4, 5);
     draw_chess_by_coord(BlackChess, 5, 4);
-    //¼ÆÊ±Æ÷¼ÆÊ±¿ªÊ¼
+    //è®¡æ—¶å™¨è®¡æ—¶å¼€å§‹
     SetTimer(1, 1000, nullptr);
 }
 
-//´¦ÀíÊó±êµã»÷ÊÂ¼ş
+//å¤„ç†é¼ æ ‡ç‚¹å‡»äº‹ä»¶
 void COthelloDlg::OnLButtonDown(UINT nFlags, 
     CPoint point)
 {
     if (m_bIsGameStart == FALSE)
-        return; //ÓÎÏ·Î´¿ªÊ¼²»¶ÔÊó±êÏûÏ¢×÷³öÏìÓ¦
+        return; //æ¸¸æˆæœªå¼€å§‹ä¸å¯¹é¼ æ ‡æ¶ˆæ¯ä½œå‡ºå“åº”
     if (point.x<MouseAnswerFarLeftX ||
         point.x>MouseAnswerFarRightX ||
         point.y<MouseAnswerFarUpY ||
         point.y>MouseAnswerFarDownY)
-        return;     //³¬³öÆåÅÌ·¶Î§²»×öÏìÓ¦
-    //¼ÆËãÊó±êµã»÷µÄÆåÅÌĞĞÁĞºÅ
-    LineNumber ClickLineNumber{ //ĞĞºÅ
+        return;     //è¶…å‡ºæ£‹ç›˜èŒƒå›´ä¸åšå“åº”
+    //è®¡ç®—é¼ æ ‡ç‚¹å‡»çš„æ£‹ç›˜è¡Œåˆ—å·
+    LineNumber ClickLineNumber{ //è¡Œå·
         static_cast<LineNumber>(
             (point.y - MouseAnswerFarUpY) / ChessSize + 1
         )
     };
-    ColNumber ClickColumnNumber{ //ÁĞºÅ
+    ColNumber ClickColumnNumber{ //åˆ—å·
         static_cast<ColNumber>(
             (point.x - MouseAnswerFarLeftX) / ChessSize + 1
         )
     };
-    //Âä×Ó´¦Àí
+    //è½å­å¤„ç†
     chess_player_down(ClickLineNumber, ClickColumnNumber);
 }
 
-//»ÚÆå
+//æ‚”æ£‹
 void COthelloDlg::OnBnClickedBuundo()
 {   
     if (m_bIsGameStart == FALSE)
     {
-        MessageBox(_T("ÓÎÏ·Î´¿ªÊ¼,²»ÄÜ»ÚÆå"), _T("ºÚ°×Æå"),
+        MessageBox(_T("æ¸¸æˆæœªå¼€å§‹,ä¸èƒ½æ‚”æ£‹"), _T("é»‘ç™½æ£‹"),
             MB_ICONERROR | MB_OK);
-        return; //ÍË»¯Çé¿ö
+        return; //é€€åŒ–æƒ…å†µ
     }      
     if (m_stpsStep.size() == 0)
     {
-        MessageBox(_T("ÎŞÆå¿É»Ú"),_T("ºÚ°×Æå"),
+        MessageBox(_T("æ— æ£‹å¯æ‚”"),_T("é»‘ç™½æ£‹"),
             MB_ICONWARNING);
         return;
     }
     CString cstrMsg;
-    cstrMsg.Format(_T("%sÆåÊÖ,ÄãÏëÈÃ¶Ô·½»ÚÆåÂğ?¶Ô·½½«·£Ê±60s!"),
+    cstrMsg.Format(_T("%sæ£‹æ‰‹,ä½ æƒ³è®©å¯¹æ–¹æ‚”æ£‹å—?å¯¹æ–¹å°†ç½šæ—¶60s!"),
         m_bIsWriteDownChess == WriteChess ?
-        _T("°×·½") : _T("ºÚ·½"));
-    if (MessageBox(cstrMsg, _T("ºÚ°×Æå"),
+        _T("ç™½æ–¹") : _T("é»‘æ–¹"));
+    if (MessageBox(cstrMsg, _T("é»‘ç™½æ£‹"),
         MB_YESNO | MB_ICONINFORMATION) == IDNO)
         return;
-    //·£Ê±
+    //ç½šæ—¶
     m_bIsWriteDownChess == WriteChess ?
         m_tBlackUsingTime += 60 :
         m_tWriteUsingTime += 60;
-    //¸´Ô­ÆåÅÌ
-    m_psNow = m_stpsStep.top(); //È¡¶¥
-    m_stpsStep.pop();           //µ¯³ö  
+    //å¤åŸæ£‹ç›˜
+    m_psNow = m_stpsStep.top(); //å–é¡¶
+    m_stpsStep.pop();           //å¼¹å‡º  
     for (LineNumber i = 1; i <= 8; i++)
         for (ColNumber j = 1; j <= 8; j++)
         {
@@ -633,50 +636,50 @@ void COthelloDlg::OnBnClickedBuundo()
     refresh_chess_num();
     if (m_bPlayerNotChange != TRUE)
     {
-        //ÉÏÒ»²½»»ÊÖÁË¾ÍÔÙ»»»ØÈ¥
-        player_logo_change();   //logo»»ÊÖ
-        m_bIsWriteDownChess = !m_bIsWriteDownChess; //»»ÊÖ
+        //ä¸Šä¸€æ­¥æ¢æ‰‹äº†å°±å†æ¢å›å»
+        player_logo_change();   //logoæ¢æ‰‹
+        m_bIsWriteDownChess = !m_bIsWriteDownChess; //æ¢æ‰‹
     }   
 }
 
-//¼ÆÊ±Æ÷»Øµ÷º¯Êı
+//è®¡æ—¶å™¨å›è°ƒå‡½æ•°
 void COthelloDlg::OnTimer(UINT_PTR nIDEvent)
 {
     CString cstrTime;
     if (m_bIsWriteDownChess == WriteChess)
     {
         m_tWriteUsingTime++;
-        cstrTime.Format(_T("°×ÆåÓÃÊ±:%7lds"), m_tWriteUsingTime);
+        cstrTime.Format(_T("ç™½æ£‹ç”¨æ—¶:%7lds"), m_tWriteUsingTime);
         GetDlgItem(IDC_StaWrTime)->SetWindowTextW(cstrTime);
     }
     else
     {
         m_tBlackUsingTime++;
-        cstrTime.Format(_T("ºÚÆåÓÃÊ±:%7lds"), m_tBlackUsingTime);
+        cstrTime.Format(_T("é»‘æ£‹ç”¨æ—¶:%7lds"), m_tBlackUsingTime);
         GetDlgItem(IDC_StaBlTime)->SetWindowTextW(cstrTime);
     }
     CDialogEx::OnTimer(nIDEvent);
 }
 
-//µ¥»÷ÈÏÊä°´Å¥
+//å•å‡»è®¤è¾“æŒ‰é’®
 void COthelloDlg::OnBnClickedBulose()
 {
     if (m_bIsGameStart == FALSE)
     {
-        MessageBox(_T("ÓÎÏ·Î´¿ªÊ¼,²»ÄÜÈÏÊä"), _T("ºÚ°×Æå"),
+        MessageBox(_T("æ¸¸æˆæœªå¼€å§‹,ä¸èƒ½è®¤è¾“"), _T("é»‘ç™½æ£‹"),
             MB_ICONERROR | MB_OK);
-        return; //ÍË»¯Çé¿ö
+        return; //é€€åŒ–æƒ…å†µ
     }
     CString cstrLoser;
     cstrLoser = m_bIsWriteDownChess == WriteChess ?
-        _T("°×·½") : _T("ºÚ·½");
+        _T("ç™½æ–¹") : _T("é»‘æ–¹");
     CString cstrMsg;
-    cstrMsg.Format(_T("%s,È·¶¨ÈÏÊäÂğ?"), cstrLoser);
-    if (MessageBox(cstrMsg, _T("ºÚ°×Æå"), MB_YESNO | MB_ICONWARNING) ==
+    cstrMsg.Format(_T("%s,ç¡®å®šè®¤è¾“å—?"), cstrLoser);
+    if (MessageBox(cstrMsg, _T("é»‘ç™½æ£‹"), MB_YESNO | MB_ICONWARNING) ==
         IDNO)
         return;
-    m_bIsGameStart = FALSE;
-    cstrMsg.Format(_T("%sÈÏÊä"), cstrLoser);
-    MessageBox(cstrMsg, _T("ºÚ°×Æå"), MB_OK | MB_ICONINFORMATION);
     KillTimer(1);
+    m_bIsGameStart = FALSE;
+    cstrMsg.Format(_T("%sè®¤è¾“"), cstrLoser);
+    MessageBox(cstrMsg, _T("é»‘ç™½æ£‹"), MB_OK | MB_ICONINFORMATION);   
 }
