@@ -93,7 +93,7 @@ void COthelloDlg::chess_player_down(
         return;     //此步不可行
     //记录悔棋日志
     m_psNow.set_chess_number(m_bWriteChessNum, m_bBlackChessNum);
-    m_stpsStep.push(m_psNow);
+    CChessBoardState m_psNowTmp = m_psNow;
     //步数计算
     size_t deltaNum = vecReverseChess.size();
     CString cstrStep;
@@ -168,6 +168,8 @@ void COthelloDlg::chess_player_down(
                 MB_ICONINFORMATION | MB_OK);   
             KillTimer(1);
         }   
+    m_psNowTmp.set_player_not_change(m_bPlayerNotChange);
+    m_stpsStep.push(m_psNowTmp);
 }
 
 //logo换手
@@ -429,12 +431,12 @@ BOOL COthelloDlg::can_do_nexe_col(LineNumber __l, ColNumber __c,
     BOOL __ISW) const
 {
     //向左检列,列-
-    for (ColNumber i = __c - 1; i >= 1; i--)
+    for (ColNumber i = __c; i >= 1; i--)
         if (m_psNow.get_state_by_coord(__l, i) == e_psBlank &&
             reverse_chess(__l, i, __ISW) == TRUE)
             return TRUE;
     //向右检测,列+
-    for (ColNumber i = __c + 1; i <= 8; i++)
+    for (ColNumber i = __c; i <= 8; i++)
         if (m_psNow.get_state_by_coord(__l, i) == e_psBlank &&
             reverse_chess(__l, i, __ISW) == TRUE)
             return TRUE;

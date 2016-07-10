@@ -30,6 +30,7 @@ class CChessBoardState  //当前棋盘的状态
     PointState  m_psState[8][8];    //当前状态
     ChessNumber m_cnWrite;          //白子数目
     ChessNumber m_cnBlack;          //黑子数目
+    BOOL        m_bPlayerNotChange; //玩家未变不换手
 public:
     //默认构造函数
     CChessBoardState()
@@ -37,9 +38,22 @@ public:
         init();
     }
 
+    //获取玩家未变不换手
+    BOOL get_player_not_change()const
+    {
+        return m_bPlayerNotChange;
+    }
+
+    //设置玩家未变不换手
+    void set_player_not_change(BOOL __s)
+    {
+        m_bPlayerNotChange = __s;
+    }
+
     //指针需要深拷贝,不得不自己来
     CChessBoardState(const CChessBoardState & __c):
-        m_cnBlack(__c.m_cnBlack),m_cnWrite(__c.m_cnWrite)
+        m_cnWrite(__c.m_cnWrite),m_cnBlack(__c.m_cnBlack),
+        m_bPlayerNotChange(__c.m_bPlayerNotChange)
     {
         //深拷贝
         for (LineNumber i = 0; i < 8; i++)
@@ -94,6 +108,7 @@ public:
             for (ColNumber j = 0; j < 8; j++)
                 m_psState[i][j] = e_psBlank;
         m_cnBlack = m_cnWrite = 2;
+        m_bPlayerNotChange = FALSE;
         //初始情况下棋盘上的四个子
         m_psState[3][3] = m_psState[4][4] = e_psWriteDown;
         m_psState[3][4] = m_psState[4][3] = e_psBlackDown;
